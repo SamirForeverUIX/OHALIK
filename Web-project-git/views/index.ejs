@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ohalik Tours - Experience the Adventure</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/auth-css.css">
+</head>
+<body>
+    <!-- Header -->
+    <header id="header">
+        <div class="navbar">
+            <div class="logo"><a href="/"><span>SILK ROAD</span> DISCOVERIES</a></div>
+            <div class="menu-toggle" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <nav class="nav-links" id="navLinks">
+                <a href="/#home">Home</a>
+                <a href="/#tours">Tours</a>
+                <a href="/#about">Team</a>
+                <a href="/#journey">About</a>
+                <a href="/blog">Blog</a>
+                <button class="btn "><a href="/#contact">CONTACT US</a> </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Home Section -->
+    <section id="home">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">Find The local <span>Adventure</span> With Us</h1>
+                <p class="hero-description">Discover breathtaking landscapes and unforgettable experiences with our expertly crafted tours. From majestic mountains to hidden gems of Samarkand, let us guide you to extraordinary destinations.</p>
+                <a href="#tours" class="btn">Explore Tours</a>
+            </div>
+        </div>
+    </section>
+
+<!-- tours -->
+    <section id="tours" class="tours-grid-section">
+        <div class="container">
+            <h2 class="section-title">Our Tours</h2>
+            <p class="section-description">Discover our expertly crafted adventures designed to create unforgettable experiences in the most beautiful places.</p>
+           
+            <div class="tours-grid">
+                <% if (tours && tours.length > 0) { %>
+                    <% tours.forEach(tour => { %>
+                        <div class="tour-card" style="background-image: url('<%= tour.imageUrl || '/images/default-tour.jpg' %>');">
+                            <div class="tour-card-image">
+                                <!-- <img src="<%= tour.imageUrl || '/images/default-tour.jpg' %>" alt="<%= tour.name %>"> -->
+                            </div>
+                            <div class="tour-card-content">
+                                <h3><%= tour.name %></h3>
+                                <p class="tour-location"><span class="location-icon">📍</span> <%= tour.location %></p>
+                                <div class="tour-meta">
+                                    <span class="tour-duration"><span class="duration-icon">⏱️</span> <%= tour.duration %> days</span>
+                                    <span class="tour-difficulty"><span class="difficulty-icon">🥾</span> <%= tour.difficulty %></span>
+                                </div>
+                                <div class="tour-price-box">
+                                <p class="tour-price">$<%= tour.price %> <span>per person</span></p>
+                                <a href="/tours/<%= tour.id %>" class="btn-view-tour">View Details</a>
+                                </div>
+                            </div>
+                        </div>
+                    <% }); %>
+                <% } else { %>
+                    <p>No tours available.</p>
+                <% } %>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="container">
+            <h2 class="section-title">Our Team</h2>
+            
+            <div class="about-intro">
+                <p>Ohalik Tours is a youth-led initiative that started in 2020. We're a group of passionate teenagers who grew up in the beautiful landscapes of Ohalik Village and know every trail, river, and mountain like the back of our hands. We wanted to share the natural beauty of our home with visitors while creating opportunities for young people in our community.</p>
+            </div>
+            
+            <div class="team-cards">
+                <!-- Team Member 1 -->
+                <div class="team-card">
+                    <div class="team-img">
+                        <img src="/Assets/{717C7D4A-228C-4D31-A3F7-89116B2C30D3}.png.jpg" alt="Amir - Tour Guide">
+                    </div>
+                    <div class="team-content">
+                        <h3 class="team-name">Samir</h3>
+                        <p class="team-role">Lead Guide, 17</p>
+                        <p class="team-bio">Born and raised in the mountains, Samir has been exploring Ohalik since he was 6 years old. He's an expert climber, knows all the local history, and can spot wildlife from miles away. When not guiding tours, he's studying environmental science.</p>
+                    </div>
+                </div>
+                
+                <!-- Team Member 2 -->
+                <div class="team-card">
+                    <div class="team-img">
+                        <img src="/Assets/{717C7D4A-228C-4D31-A3F7-89116B2C30D3}.png.jpg" alt="Sofia - Tour Coordinator">
+                    </div>
+                    <div class="team-content">
+                        <h3 class="team-name">Sofia</h3>
+                        <p class="team-role">Tour Coordinator, 18</p>
+                        <p class="team-bio">Sofia handles all the behind-the-scenes planning that makes our tours run smoothly. She's passionate about sustainable tourism and makes sure our adventures have minimal impact on the environment while supporting local families.</p>
+                    </div>
+                </div>
+                
+                <!-- Team Member 3 -->
+                <div class="team-card">
+                    <div class="team-img">
+                        <img src="/Assets/{717C7D4A-228C-4D31-A3F7-89116B2C30D3}.png.jpg " alt="Karim - Culture Guide">
+                    </div>
+                    <div class="team-content">
+                        <h3 class="team-name">Karim</h3>
+                        <p class="team-role">Culture Guide, 16</p>
+                        <p class="team-bio">Karim comes from a family of traditional storytellers. He brings the legends and culture of Ohalik to life during our tours. He speaks three languages fluently and loves connecting visitors with local artisans and families.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="journey">
+        <div class="journey-container">
+            <h2 class="journey-title">Our Journey</h2>
+            <div class="journey-content">
+                <div class="journey-text">
+                    <p>Ohalik Tours has been providing extraordinary travel experiences since 2010. We specialize in creating unforgettable adventures that combine stunning natural landscapes with authentic cultural experiences.</p>
+                    <p>Our team of expert guides and travel specialists are passionate about sharing the beauty and wonder of Ohalik Village and its surrounding regions. We take pride in our attention to detail, personalized service, and commitment to sustainable tourism practices.</p>
+                    <div class="journey-stats">
+                        <div class="journey-stat-item">
+                            <div class="journey-stat-number">500+</div>
+                            <div class="journey-stat-text">Happy Clients</div>
+                        </div>
+                        <div class="journey-stat-item">
+                            <div class="journey-stat-number">5+</div>
+                            <div class="journey-stat-text">Destinations</div>
+                        </div>
+                        <div class="journey-stat-item">
+                            <div class="journey-stat-number">3+</div>
+                            <div class="journey-stat-text">Years Experience</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="journey-image">
+                    <img src="/Assets/2924481114_ee3c15a7f0_o.webp" alt="About Ohalik Tours">
+                </div>
+            </div>
+        </div>
+    </section>  
+    
+    
+<!-- Contact Section -->
+<section id="contact">
+    <div class="container">
+        <h2 class="section-title">Contact Us</h2>
+        <div class="contact-container">
+            <div class="contact-info">
+                <p>Have questions about our tours or need personalized travel advice? Get in touch with our team, and we'll be happy to help you plan your perfect adventure.</p>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">📍</div>
+                    <div>
+                        <h3>Address</h3>
+                        <p>Samarkand, 123 st SKD</p>
+                    </div>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">📱</div>
+                    <div>
+                        <h3>Phone</h3>
+                        <p>+998 93 993 61 39</p>
+                    </div>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">✉️</div>
+                    <div>
+                        <h3>Email</h3>
+                        <p>ohaliktour@gmail.com</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="contact-form">
+                <form id="contactForm">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" class="form-control" placeholder="Your Email" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Subject">
+                    </div>
+                    <div class="form-group">
+                        <textarea class="form-control" placeholder="Your Message" required></textarea>
+                    </div>
+                    <button type="submit" class="btn">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-column">
+                <div class="footer-logo"><span>SILK ROAD</span> DISCOVERIES</div>
+                <p class="footer-description">Discover extraordinary adventures with our expert guides and carefully crafted tours. Experience the beauty of Ohalik Village like never before.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link">FB</a>
+                    <a href="#" class="social-link">IG</a>
+                    <a href="#" class="social-link">TW</a>
+                    <a href="#" class="social-link">YT</a>
+                </div>
+            </div>
+            
+            <div class="footer-column">
+                <h3 class="footer-title">Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#tours">Tours</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3 class="footer-title">Our Tours</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Mountain Expeditions</a></li>
+                    <li><a href="#">Cultural Tours</a></li>
+                    <li><a href="#">Adventure Activities</a></li>
+                    <li><a href="#">Family Packages</a></li>
+                </ul>
+            </div>
+        
+        <div class="footer-column">
+            <h3 class="footer-title">Newsletter</h3>
+            <p>Subscribe to our newsletter for the latest updates and exclusive offers.</p>
+            <form id="newsletterForm" class="form-group">
+                <input type="email" class="form-control" id="email" placeholder="Your Email" required>
+                <button type="submit" class="btn" style="margin-top: 10px;">Subscribe</button>
+            </form>
+        </div>
+        
+        <div class="copyright">
+            <p>&copy; 2025 Ohalik Tours. All Rights Reserved.</p>
+        </div>
+    </div>
+</footer>
+<!-- Login/Register Modal (add at the end of the body, before scripts) -->
+<div id="authModal" class="auth-modal-overlay">
+    <div class="auth-modal">
+        <button class="auth-modal-close">&times;</button>
+        
+        <!-- Tabs for Login/Register -->
+        <div class="auth-tabs">
+            <div class="auth-tab active" data-tab="login">Login</div>
+            <div class="auth-tab" data-tab="register">Register</div>
+        </div>
+        
+        <!-- Login Form -->
+        <div class="auth-form-container active" id="loginForm">
+            <form action="/auth/login" method="POST">
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" name="email" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" name="password" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-full">Login</button>
+                </div>
+                <div class="auth-links">
+                    <a href="#" class="forgot-password" id="forgotPasswordLink">Forgot Password?</a>
+                </div>
+            </form>
+            <div class="social-login">
+                <p>Or login with</p>
+                <div class="social-buttons">
+                    <button type="button" class="social-btn google-btn">
+                        <span class="social-icon">G</span>
+                        <span>Google</span>
+                    </button>
+                    <button type="button" class="social-btn apple-btn">
+                        <span class="social-icon">A</span>
+                        <span>Apple</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Register Form -->
+        <div class="auth-form-container" id="registerForm">
+            <form action="/auth/register" method="POST">
+                <div class="form-group">
+                    <label for="registerName">Full Name</label>
+                    <input type="text" id="registerName" name="name" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerEmail">Email</label>
+                    <input type="email" id="registerEmail" name="email" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerPassword">Password</label>
+                    <input type="password" id="registerPassword" name="password" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerConfirmPassword">Confirm Password</label>
+                    <input type="password" id="registerConfirmPassword" name="confirmPassword" class="form-control" required>
+                </div>
+                <!-- Password reset form -->
+                <div class="auth-form-container" id="passwordResetForm">
+                    <form action="/auth/reset-password" method="POST">
+                        <div class="form-group">
+                            <label for="resetEmail">Email</label>
+                            <input type="email" id="resetEmail" name="email" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-full">Send Reset Link</button>
+                        </div>
+                        <div class="auth-links">
+                            <a href="#" class="back-to-login">Back to Login</a>
+                        </div>
+                    </form>
+                </div>
+                
+                <!-- Hidden Admin Code Section -->
+                <div class="form-group hidden-admin-section">
+                    <div class="admin-toggle">
+                        <span class="admin-toggle-text">I have an admin code</span>
+                        <div class="admin-toggle-icon">+</div>
+                    </div>
+                    <div class="admin-code-input" style="display: none;">
+                        <label for="adminCode">Admin Code</label>
+                        <input type="password" id="adminCode" name="adminCode" class="form-control">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <button type="submit" class="btn btn-full">Register</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- User Profile Dropdown Menu (This will be shown after login) -->
+<div class="profile-dropdown" id="profileDropdown" style="display: none;">
+    <div class="profile-header">
+        <div class="profile-avatar">
+            <img src="/images/default-avatar.jpg" alt="User Avatar" id="userAvatar">
+        </div>
+        <div class="profile-info">
+            <div class="profile-name" id="userName">User Name</div>
+            <div class="profile-email" id="userEmail">user@example.com</div>
+        </div>
+    </div>
+    
+    <!-- Regular User Menu Items -->
+    <div class="profile-menu regular-user-menu">
+        <a href="/profile" class="profile-menu-item">
+            <span class="profile-menu-icon">👤</span>
+            <span>My Profile</span>
+        </a>
+        <a href="/profile/documents" class="profile-menu-item">
+            <span class="profile-menu-icon">📄</span>
+            <span>My Documents</span>
+        </a>
+        <a href="/profile/bookings" class="profile-menu-item">
+            <span class="profile-menu-icon">🗓️</span>
+            <span>My Bookings</span>
+        </a>
+        <a href="/profile/settings" class="profile-menu-item">
+            <span class="profile-menu-icon">⚙️</span>
+            <span>Account Settings</span>
+        </a>
+    </div>
+    
+    <!-- Admin User Menu Items (hidden by default) -->
+    <div class="profile-menu admin-user-menu" style="display: none;">
+        <a href="/admin/team" class="profile-menu-item">
+            <span class="profile-menu-icon">👥</span>
+            <span>Manage Team</span>
+        </a>
+        <a href="/admin/tours" class="profile-menu-item">
+            <span class="profile-menu-icon">🏔️</span>
+            <span>Manage Tours</span>
+        </a>
+        <a href="/admin/blog" class="profile-menu-item">
+            <span class="profile-menu-icon">📝</span>
+            <span>Manage Blog</span>
+        </a>
+        <a href="/admin/newsletter" class="profile-menu-item">
+            <span class="profile-menu-icon">📧</span>
+            <span>Send Newsletter</span>
+        </a>
+        <a href="/profile/settings" class="profile-menu-item">
+            <span class="profile-menu-icon">⚙️</span>
+            <span>Account Settings</span>
+        </a>
+    </div>
+    
+    <div class="profile-footer">
+        <a href="/auth/logout" class="logout-btn">
+            <span class="logout-icon">🚪</span>
+            <span>Logout</span>
+        </a>
+    </div>
+</div>
+
+   <!-- Back to Top Button -->
+   <a href="#home" class="back-to-top" id="backToTop">↑</a>
+<script src="/js/main.js"></script>
+<script src="/js/auth-modal.js"></script>
+</body>
+</html>

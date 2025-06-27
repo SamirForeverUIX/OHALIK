@@ -1,0 +1,180 @@
+<!-- admin/tour-form.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= tour ? 'Edit' : 'Add' %> Tour - Ohalik Tours</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+    <!-- Admin Header -->
+    <%- include('../partials/admin-header') %>
+    
+    <div class="admin-container">
+        <div class="admin-sidebar">
+            <%- include('../partials/admin-sidebar') %>
+        </div>
+        
+        <div class="admin-content">
+            <div class="admin-header">
+                <h1><%= tour ? 'Edit' : 'Add New' %> Tour</h1>
+                <a href="/admin/tours" class="btn btn-secondary">Back to Tours</a>
+            </div>
+            
+            <div class="admin-form-container">
+                <form action="<%= tour ? `/admin/tours/update/${tour.id}` : '/admin/tours/create' %>" method="POST" class="admin-form" enctype="multipart/form-data">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="name">Tour Name*</label>
+                            <input type="text" id="name" name="name" value="<%= tour ? tour.name : '' %>" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="location">Location*</label>
+                            <input type="text" id="location" name="location" value="<%= tour ? tour.location : '' %>" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="duration">Duration (days)*</label>
+                            <input type="number" id="duration" name="duration" value="<%= tour ? tour.duration : '' %>" class="form-control" required min="1">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="price">Price ($)*</label>
+                            <input type="number" id="price" name="price" value="<%= tour ? tour.price : '' %>" class="form-control" required min="0" step="0.01">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="maxGroup">Max Group Size*</label>
+                            <input type="number" id="maxGroup" name="maxGroup" value="<%= tour ? tour.maxGroup : '' %>" class="form-control" required min="1">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="difficulty">Difficulty*</label>
+                            <select id="difficulty" name="difficulty" class="form-control" required>
+                                <option value="">Select Difficulty</option>
+                                <option value="Easy" <%= tour && tour.difficulty === 'Easy' ? 'selected' : '' %>>Easy</option>
+                                <option value="Moderate" <%= tour && tour.difficulty === 'Moderate' ? 'selected' : '' %>>Moderate</option>
+                                <option value="Challenging" <%= tour && tour.difficulty === 'Challenging' ? 'selected' : '' %>>Challenging</option>
+                                <option value="Difficult" <%= tour && tour.difficulty === 'Difficult' ? 'selected' : '' %>>Difficult</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="featured" name="featured" <%= tour && tour.featured ? 'checked' : '' %>>
+                                <span>Featured Tour</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="imageUpload">Tour Image</label>
+                        <% if (tour && tour.imageUrl) { %>
+                            <div class="current-image">
+                                <img src="<%= tour.imageUrl %>" alt="Current Image" class="form-image-preview">
+                                <p>Current image: <%= tour.imageUrl %></p>
+                            </div>
+                        <% } %>
+                        <input type="file" id="imageUpload" name="imageUpload" class="form-control">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="description">Description*</label>
+                        <textarea id="description" name="description" class="form-control" rows="6" required><%= tour ? tour.description : '' %></textarea>
+                    </div>
+                    
+                    <h3>Itinerary</h3>
+                    <div id="itinerary-container">
+                        <% if (tour && tour.itinerary && tour.itinerary.length > 0) { %>
+                            <% tour.itinerary.forEach((day, index) => { %>
+                                <div class="itinerary-day">
+                                    <h4>Day <%= day.dayNumber %></h4>
+                                    <div class="form-grid">
+                                        <div class="form-group">
+                                            <label for="day_<%= index %>_title">Title*</label>
+                                            <input type="text" id="day_<%= index %>_title" name="itinerary[<%= index %>][title]" value="<%= day.title %>" class="form-control" required>
+                                            <input type="hidden" name="itinerary[<%= index %>][dayNumber]" value="<%= day.dayNumber %>">
+                                            <% if (day.id) { %>
+                                                <input type="hidden" name="itinerary[<%= index %>][id]" value="<%= day.id %>">
+                                            <% } %>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="day_<%= index %>_description">Description*</label>
+                                        <textarea id="day_<%= index %>_description" name="itinerary[<%= index %>][description]" class="form-control" rows="3" required><%= day.description %></textarea>
+                                    </div>
+                                    
+                                    <div class="form-grid">
+                                        <div class="form-group">
+                                            <label for="day_<%= index %>_activities">Activities*</label>
+                                            <textarea id="day_<%= index %>_activities" name="itinerary[<%= index %>][activities]" class="form-control" rows="2" required><%= day.activities %></textarea>
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label for="day_<%= index %>_meals">Meals*</label>
+                                            <input type="text" id="day_<%= index %>_meals" name="itinerary[<%= index %>][meals]" value="<%= day.meals %>" class="form-control" required>
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label for="day_<%= index %>_accommodation">Accommodation*</label>
+                                            <input type="text" id="day_<%= index %>_accommodation" name="itinerary[<%= index %>][accommodation]" value="<%= day.accommodation %>" class="form-control" required>
+                                        </div>
+                                    </div>
+                                    
+                                    <% if (index > 0) { %>
+                                        <button type="button" class="btn-small btn-remove remove-day">Remove Day</button>
+                                    <% } %>
+                                </div>
+                            <% }); %>
+                        <% } else { %>
+                            <div class="itinerary-day">
+                                <h4>Day 1</h4>
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label for="day_0_title">Title*</label>
+                                        <input type="text" id="day_0_title" name="itinerary[0][title]" class="form-control" required>
+                                        <input type="hidden" name="itinerary[0][dayNumber]" value="1">
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="day_0_description">Description*</label>
+                                    <textarea id="day_0_description" name="itinerary[0][description]" class="form-control" rows="3" required></textarea>
+                                </div>
+                                
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label for="day_0_activities">Activities*</label>
+                                        <textarea id="day_0_activities" name="itinerary[0][activities]" class="form-control" rows="2" required></textarea>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="day_0_meals">Meals*</label>
+                                            <input type="text" id="day_0_meals" name="itinerary[0][meals]" class="form-control" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="day_0_accommodation">Accommodation*</label>
+                                        <input type="text" id="day_0_accommodation" name="itinerary[0][accommodation]" class="form-control" required>
+                                    </div>
+                                </div>
+                            </div>
+                        <% } %>
+                    </div>
+
+                    <button type="button" id="add-day" class="btn btn-secondary">Add Day</button>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary"><%= tour ? 'Update Tour' : 'Create Tour' %></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

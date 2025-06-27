@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tour Booking Modal System</title>
+    <link rel="stylesheet" href="/styles/booking-modal.css">
+</head>
+<body>
+    <div id="bookingModal" class="booking-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Book Your Adventure</h2>
+                <div class="tour-info">
+                    <span id="modalTourName">Loading...</span>
+                </div>
+                <button class="close-modal" onclick="closeBookingModal()">&times;</button>
+            </div>
+            
+            <div class="modal-body">
+                <div id="messageContainer"></div>
+                
+                <div class="tour-summary">
+                    <h3>Tour Summary</h3>
+                    <div class="summary-grid">
+                        <div class="summary-item">
+                            <span class="summary-label">Duration:</span>
+                            <span class="summary-value" id="summaryDuration">-</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Difficulty:</span>
+                            <span class="summary-value" id="summaryDifficulty">-</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Max Group:</span>
+                            <span class="summary-value" id="summaryMaxGroup">-</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Price per person:</span>
+                            <span class="summary-value" id="summaryPrice">-</span>
+                        </div>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Total Price:</span>
+                        <span class="summary-value" id="totalPrice">$0</span>
+                    </div>
+                </div>
+                
+                <form id="bookingForm" method="POST" action="">
+                    <div class="booking-form-grid">
+                        <div class="form-group">
+                            <label for="firstName" class="required">First Name</label>
+                            <input type="text" id="firstName" name="firstName" class="form-control" required placeholder="Enter your first name">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="lastName" class="required">Last Name</label>
+                            <input type="text" id="lastName" name="lastName" class="form-control" required placeholder="Enter your last name">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email" class="required">Email Address</label>
+                            <input type="email" id="email" name="email" class="form-control" required placeholder="your.email@example.com">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone" class="required">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" class="form-control" required placeholder="+1 234 567 8900">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="birthDate">Birth Date</label>
+                            <input type="date" id="birthDate" name="birthDate" class="form-control">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="participants" class="required">Number of Participants</label>
+                            <select id="participants" name="participants" class="form-control" required>
+                                <option value="">Select participants</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group full-width">
+                            <label for="bookingDate" class="required">Preferred Start Date</label>
+                            <input type="date" id="bookingDate" name="bookingDate" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group full-width">
+                            <label for="message">Additional Message</label>
+                            <textarea id="message" name="message" class="form-control" placeholder="Any special requests, dietary requirements, or questions..."></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="modal-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeBookingModal()">Cancel</button>
+                        <button type="submit" class="btn btn-primary" id="submitBtn">
+                            <span id="submitText">Send Booking Request</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="/js/booking-modal.js"></script>
+</body>
+</html>

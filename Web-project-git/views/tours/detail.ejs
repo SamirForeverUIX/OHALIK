@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="csrf-token" content="<%= csrfToken %>">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= tour.name %> - Ohalik Tours</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/tour-detail.css">
+    <link rel="stylesheet" href="/css/booking-modal.css">
+
+</head>
+<body>
+    <!-- Include Header -->
+    <%- include('../partials/header') %>
+    
+    <!-- Flash Messages -->
+    <% if (locals.messages) { %>
+        <%- include('../partials/flash-messages') %>
+    <% } %>
+    
+    <section class="tour-hero" style="background-image: url('<%= tour.imageUrl || '/Assets/samarkand.jpg' %>');">
+        <div class="container">
+            <div class="tour-hero-content">
+                <h1 class="tour-hero-title"><%= tour.name %></h1>
+                <div class="tour-meta">
+                    <div class="tour-meta-item">
+                        <span class="tour-meta-icon">⏱️</span>
+                        <span><%= tour.duration %> Days</span>
+                    </div>
+                    <div class="tour-meta-item">
+                        <span class="tour-meta-icon">👥</span>
+                        <span>Max Group: <%= tour.maxGroup %></span>
+                    </div>
+                    <div class="tour-meta-item">
+                        <span class="tour-meta-icon">📍</span>
+                        <span><%= tour.location %></span>
+                    </div>
+                    <div class="tour-meta-item">
+                        <span class="tour-meta-icon">🥾</span>
+                        <span><%= tour.difficulty %> Difficulty</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Sticky Navigation -->
+    <nav id="tour-sticky-nav" class="tour-sticky-nav">
+        <div class="container">
+            <ul class="tour-nav-links">
+                <li><a href="#trip-details" class="active">Trip Details</a></li>
+                <li><a href="#overview">Overview</a></li>
+                <li><a href="#trip-map">Trip Map</a></li>
+                <li><a href="#itinerary">Itinerary</a></li>
+                <li><a href="#faqs">FAQs</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <!-- Tour Details Section -->
+    <section class="tour-details">
+        <div class="container">
+            <div class="tour-details-grid">
+                <div class="tour-details-main">
+                    <div id="trip-details" class="tour-section">
+                        <h2>Trip Details</h2>
+                        <div class="tour-features">
+                            <div class="feature-item">
+                                <span class="feature-icon">⏱️</span>
+                                <div class="feature-content">
+                                    <h4>Duration</h4>
+                                    <p><%= tour.duration %> days</p>
+                                </div>
+                            </div>
+                            <div class="feature-item">
+                                <span class="feature-icon">👥</span>
+                                <div class="feature-content">
+                                    <h4>Group Size</h4>
+                                    <p>Max <%= tour.maxGroup %> people</p>
+                                </div>
+                            </div>
+                            <div class="feature-item">
+                                <span class="feature-icon">🥾</span>
+                                <div class="feature-content">
+                                    <h4>Difficulty</h4>
+                                    <p><%= tour.difficulty %></p>
+                                </div>
+                            </div>
+                            <div class="feature-item">
+                                <span class="feature-icon">📍</span>
+                                <div class="feature-content">
+                                    <h4>Location</h4>
+                                    <p><%= tour.location %></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="overview" class="tour-section">
+                        <h2>Overview</h2>
+                        <p><%= tour.description %></p>
+                    </div>
+                    
+                    <div id="trip-map" class="tour-section">
+                        <h2>Trip Map</h2>
+                        <div class="tour-map">
+                            <!-- Map will be inserted here or via API -->
+                            <img src="/Assets/map-placeholder.jpg" alt="Tour Map" class="map-image">
+                        </div>
+                    </div>
+                    
+                    <div id="itinerary" class="tour-section">
+                        <h2>Itinerary</h2>
+                        <div class="itinerary">
+                            <% if (tour.itinerary && tour.itinerary.length > 0) { %>
+                                <% tour.itinerary.forEach(day => { %>
+                                    <div class="day-item">
+                                        <h4 class="day-title">Day <%= day.dayNumber %>: <%= day.title %></h4>
+                                        <div class="day-content">
+                                            <p><%= day.description %></p>
+                                            <p><strong>Activities:</strong> <%= day.activities || 'N/A' %></p>
+                                            <p><strong>Meals included:</strong> <%= day.meals || 'N/A' %><br>
+                                            <strong>Accommodation:</strong> <%= day.accommodation || 'N/A' %></p>                                      
+                                        </div>
+                                    </div>
+                                <% }); %>
+                            <% } else { %>
+                                <p>Detailed itinerary coming soon...</p>
+                            <% } %>
+                        </div>
+                    </div>
+                    
+                    <div id="faqs" class="tour-section">
+                        <h2>Frequently Asked Questions</h2>
+                        <div class="faqs-container">
+                            <div class="faq-item">
+                                <h4 class="faq-question">What should I pack for this tour?</h4>
+                                <div class="faq-answer">
+                                    <p>We recommend comfortable walking shoes, weather-appropriate clothing, sunscreen, and a water bottle. A detailed packing list will be provided after booking.</p>
+                                </div>
+                            </div>
+                            <div class="faq-item">
+                                <h4 class="faq-question">Is this tour suitable for beginners?</h4>
+                                <div class="faq-answer">
+                                    <p>This tour has a <%= tour.difficulty %> difficulty rating. <%= tour.difficulty === 'Easy' ? 'It is suitable for beginners with basic fitness levels.' : tour.difficulty === 'Moderate' ? 'It requires some hiking experience and moderate fitness levels.' : 'It requires good fitness levels and previous hiking experience.' %></p>
+                                </div>
+                            </div>
+                            <div class="faq-item">
+                                <h4 class="faq-question">Are meals included?</h4>
+                                <div class="faq-answer">
+                                    <p>Most meals are included as specified in the itinerary. Please check each day's details for specifics.</p>
+                                </div>
+                            </div>
+                            <!-- Add more FAQ items as needed -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tour-details-sidebar">
+                    <div class="tour-booking-card">
+                        <h3>Book This Tour</h3>
+                        <div class="tour-price-large">$<%= tour.price %> <span>per person</span></div>
+                        
+                        <form action="/tours/book/<%= tour.id %>" method="POST" class="booking-form">
+                            <div class="form-group">
+                                <label for="bookingDate">Select Date</label>
+                                <input type="date" id="bookingDate" name="bookingDate" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="participants">Number of Participants</label>
+                                <select id="participants" name="participants" class="form-control" required>
+                                    <% for(let i = 1; i <= tour.maxGroup; i++) { %>
+                                        <option value="<%= i %>"><%= i %></option>
+                                    <% } %>
+                                </select>
+                            </div>
+                            <button type="button" id="bookNowButton" class="btn btn-full">Book Now</button>
+                        </form>
+                        
+                        <div class="tour-info-list">
+                            <div class="tour-info-item">
+                                <span class="info-icon">📅</span>
+                                <div>
+                                    <h4>Duration</h4>
+                                    <p><%= tour.duration %> days</p>
+                                </div>
+                            </div>
+                            <div class="tour-info-item">
+                                <span class="info-icon">👥</span>
+                                <div>
+                                    <h4>Group Size</h4>
+                                    <p>Max <%= tour.maxGroup %> people</p>
+                                </div>
+                            </div>
+                            <div class="tour-info-item">
+                                <span class="info-icon">🥾</span>
+                                <div>
+                                    <h4>Difficulty</h4>
+                                    <p><%= tour.difficulty %></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+ 
+    
+    <!-- Footer -->
+    <%- include('../partials/footer') %>
+    <%- include('../partials/bookingModal') %>
+
+    <script>
+// Initialize tour data from EJS template (exactly like you're doing now)
+const tourData = {
+    id: '<%= tour.id %>',
+    name: '<%= tour.name %>',
+    duration: <%= tour.duration %>,
+    difficulty: '<%= tour.difficulty %>',
+    maxGroup: <%= tour.maxGroup %>,
+    price: <%= tour.price %>
+};
+
+// Add click handler to your existing button
+document.getElementById('bookNowButton').addEventListener('click', () => {
+    // Get values from sidebar form (if you have one)
+    const sidebarDate = document.getElementById('bookingDate')?.value || '';
+    const sidebarParticipants = document.getElementById('participants')?.value || '';
+    
+    // Call the global function
+    openBookingModal(tourData, sidebarDate, sidebarParticipants);
+});
+</script>
+   <script src="/js/booking-modal.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/tour-detail.js"></script>
+</body>
+</html>

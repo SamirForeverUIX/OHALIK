@@ -1,0 +1,193 @@
+/* Updated blog-detail.css for newspaper-style layout similar to Camino Women */
+
+/* Reset and global styles */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Georgia', serif;
+  color: #333;
+  background-color: #f9f9f9;
+  line-height: 1.6;
+}
+
+/* Header styling - make it transparent over the banner */
+header {
+  position: absolute;
+  width: 100%;
+  z-index: 10;
+  background-color: transparent;
+  color: #fff;
+}
+
+.navbar {
+  padding: 0px 40px;
+}
+
+/* Hero banner section */
+.blog-hero {
+  position: relative;
+  width: 100%;
+  height: 70vh;
+  min-height: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #1e2023;
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+  margin-bottom: 60px;
+}
+
+.blog-hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.blog-hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  max-width: 800px;
+  padding: 0 20px;
+}
+
+.blog-hero-title {
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  line-height: 1.2;
+}
+
+.blog-date {
+  font-style: italic;
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+  opacity: 0.8;
+}
+
+.blog-author {
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+/* Main content section */
+.blog-detail-container {
+  max-width: 800px;
+  margin: 0 auto 60px;
+  padding: 0 20px;
+  background-color: #fff;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.blog-content {
+  padding: 40px 40px;
+}
+
+/* Article styling */
+.blog-section {
+  margin-bottom: 0px;
+}
+
+.blog-section-heading {
+  font-size: 1.8rem;
+  margin: 30px 0 15px;
+  font-weight: 700;
+  color: #222;
+}
+
+.blog-section-text {
+  font-size: 1.15rem;
+  line-height: 1.6;
+  margin-bottom: 0px;
+}
+
+.blog-section-text p {
+  margin-bottom: 12px;
+}
+
+/* Drop cap styling for first paragraph */
+.first-paragraph::first-letter {
+  font-size: 2rem;
+  line-height: 0.8;
+  font-weight: 700;
+  float: left;
+  padding-right: 3px;
+  color: #e87c1e;
+}
+
+/* Image styling */
+.blog-section-image {
+  width: 100%;
+  margin: 30px 0;
+  border-radius: 5px;
+}
+
+/* Back link */
+.back-link {
+  display: inline-block;
+  margin: 40px 0;
+  text-decoration: none;
+  color: #e87c1e;
+  font-weight: 600;
+  font-size: 1.1rem;
+  transition: color 0.3s ease;
+}
+
+.back-link:hover {
+  color: #c36210;
+}
+
+/* Footer adjustments */
+footer {
+  background-color: #1e2023;
+  color: #fff;
+}
+
+/* Responsive styles */
+  @media (max-width: 768px) {
+  .blog-hero {
+    height: 50vh;
+    min-height: 400px;
+  }
+  
+  .blog-hero-title {
+    font-size: 2.5rem;
+  }
+  
+  .blog-content {
+    padding: 30px 20px;
+  }
+  
+  .blog-section-text {
+    font-size: 1.05rem;
+    line-height: 1.5;
+  }
+}
+
+@media (max-width: 480px) {
+  .blog-hero {
+    height: 40vh;
+    min-height: 300px;
+  }
+  
+  .blog-hero-title {
+    font-size: 2rem;
+  }
+  
+  .navbar {
+    padding: 15px 20px;
+  }
+  
+  .blog-content {
+    padding: 30px 15px;
+  }
+  
+  .first-paragraph::first-letter {
+    font-size: 2.5rem;
+  }
+}

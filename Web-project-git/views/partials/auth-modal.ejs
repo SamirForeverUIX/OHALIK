@@ -1,0 +1,103 @@
+<!-- views/partials/auth-modal.ejs -->
+
+<div id="authModalOverlay" class="auth-modal-overlay">
+  <div class="auth-modal">
+    <div class="modal-header">
+      <h2>Welcome to Ohalik Tours</h2>
+      <button id="closeModalBtn" class="close-btn">&times;</button>
+    </div>
+    
+    <!-- Login Form -->
+    <form id="loginForm" class="auth-form active" action="/login" method="POST">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      
+      <h3>Login to Your Account</h3>
+      
+      <% if (typeof error !== 'undefined') { %>
+        <div class="form-error"><%= error %></div>
+      <% } %>
+      
+      <div class="form-group">
+        <label for="loginEmail">Email</label>
+        <input type="email" id="loginEmail" name="email" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="loginPassword">Password</label>
+        <input type="password" id="loginPassword" name="password" required>
+      </div>
+      
+      <div class="form-group admin-toggle">
+        <label class="toggle-label">
+          <input type="checkbox" id="adminKeyToggle">
+          <span class="toggle-text">Admin Access</span>
+        </label>
+      </div>
+      
+      <div class="form-group" id="adminKeyField" style="display: none;">
+        <label for="adminKeyInput">Admin Key</label>
+        <input type="password" id="adminKeyInput" name="adminKey">
+      </div>
+      
+      <button type="submit" class="btn">Login</button>
+      
+      <div class="form-footer">
+        <span>Don't have an account?</span>
+        <a href="#" id="switchToRegister">Register</a>
+      </div>
+    </form>
+    
+    <!-- Registration Form -->
+    <form id="registerForm" class="auth-form" action="/register" method="POST">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      
+      <h3>Create an Account</h3>
+      
+      <div class="form-group">
+        <label for="registerEmail">Email</label>
+        <input type="email" id="registerEmail" name="email" required>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label for="firstName">First Name</label>
+          <input type="text" id="firstName" name="firstName" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="lastName">Last Name</label>
+          <input type="text" id="lastName" name="lastName" required>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="registerPassword">Password</label>
+        <input type="password" id="registerPassword" name="password" required minlength="8">
+      </div>
+      
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password</label>
+        <input type="password" id="confirmPassword" required minlength="8">
+      </div>
+      
+      <div class="form-group admin-toggle">
+        <label class="toggle-label">
+          <input type="checkbox" id="registerAdminKeyToggle">
+          <span class="toggle-text">Admin Access</span>
+        </label>
+      </div>
+      
+      <div class="form-group" id="registerAdminKeyField" style="display: none;">
+        <label for="registerAdminKeyInput">Admin Key</label>
+        <input type="password" id="registerAdminKeyInput" name="adminKey">
+      </div>
+      
+      <button type="submit" class="btn">Register</button>
+      
+      <div class="form-footer">
+        <span>Already have an account?</span>
+        <a href="#" id="switchToLogin">Login</a>
+      </div>
+    </form>
+  </div>
+</div>

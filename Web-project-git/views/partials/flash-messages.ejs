@@ -1,0 +1,46 @@
+<!-- views/partials/flash-messages.ejs -->
+<% if (locals.messages && messages.error) { %>
+    <div class="flash-message error">
+        <span class="flash-icon">❌</span>
+        <span class="flash-text"><%= messages.error %></span>
+        <button class="flash-close">×</button>
+    </div>
+<% } %>
+
+<% if (locals.messages && messages.success) { %>
+    <div class="flash-message success">
+        <span class="flash-icon">✅</span>
+        <span class="flash-text"><%= messages.success %></span>
+        <button class="flash-close">×</button>
+    </div>
+<% } %>
+
+<% if (locals.messages && messages.info) { %>
+    <div class="flash-message info">
+        <span class="flash-icon">ℹ️</span>
+        <span class="flash-text"><%= messages.info %></span>
+        <button class="flash-close">×</button>
+    </div>
+<% } %>
+
+<script>
+    // Add event listeners to close flash messages
+    document.addEventListener('DOMContentLoaded', function() {
+        const closeButtons = document.querySelectorAll('.flash-close');
+        closeButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                this.parentElement.style.display = 'none';
+            });
+        });
+        
+        // Auto-hide flash messages after 5 seconds
+        setTimeout(() => {
+            document.querySelectorAll('.flash-message').forEach(msg => {
+                msg.style.opacity = '0';
+                setTimeout(() => {
+                    msg.style.display = 'none';
+                }, 500);
+            });
+        }, 5000);
+    });
+</script>

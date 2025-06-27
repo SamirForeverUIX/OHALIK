@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ohalik Tours - <%= blog.title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/blog-detail.css">
+</head>
+<body>
+    <!-- Header -->
+    <header id="header">
+        <div class="navbar">
+            <div class="logo"><a href="/"><span>SILK ROAD</span> DISCOVERIES</a></div>
+            <div class="menu-toggle" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <nav class="nav-links" id="navLinks">
+                <a href="/">Home</a>
+                <a href="/#journey">About</a>
+                <a href="/#about">Team</a>
+                <a href="/#tours">Tours</a>
+                <a href="/#contact">Contact</a>
+                <a href="/blog">Blog</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Banner with Blog Title -->
+    <div class="blog-hero" style="background-image: url('<%= blog.coverImage %>')">
+        <div class="blog-hero-overlay"></div>
+        <div class="blog-hero-content">
+            <h1 class="blog-hero-title"><%= blog.title %></h1>
+            <p class="blog-date"><%= new Date(blog.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %></p>
+            <% if (blog.author) { %>
+                <p class="blog-author">By <%= blog.author %></p>
+            <% } %>
+        </div>
+    </div>
+
+    <!-- Blog Content -->
+    <div class="blog-detail-container">
+        <div class="blog-content">
+            <% if (blog.sections && blog.sections.length > 0) { %>
+                <% blog.sections.forEach((section, index) => { %>
+                    <div class="blog-section">
+                        <% if (section.heading) { %>
+                            <h2 class="blog-section-heading"><%= section.heading %></h2>
+                        <% } %>
+                        
+                        <div class="blog-section-text">
+                            <% if (index === 0) { %>
+                                <!-- Apply drop cap to first paragraph of first section -->
+                                <p class="first-paragraph"><%= section.text %></p>
+                            <% } else { %>
+                                <p><%= section.text %></p>
+                            <% } %>
+                        </div>
+                        
+                        <% if (section.image) { %>
+                            <img src="<%= section.image %>" alt="" class="blog-section-image">
+                        <% } %>
+                    </div>
+                <% }) %>
+            <% } else { %>
+                <!-- If sections array is not available, display content as a single section -->
+                <div class="blog-section">
+                    <div class="blog-section-text">
+                        <p class="first-paragraph"><%= blog.content %></p>
+                    </div>
+                </div>
+            <% } %>
+            
+            <a href="/blog" class="back-link">← Back to all blogs</a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <div class="footer-logo"><span>OHALIK</span> TOURS</div>
+                    <p class="footer-description">Discover extraordinary adventures with our expert guides and carefully crafted tours. Experience the beauty of Ohalik Village like never before.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link">FB</a>
+                        <a href="#" class="social-link">IG</a>
+                        <a href="#" class="social-link">TW</a>
+                        <a href="#" class="social-link">YT</a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3 class="footer-title">Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="/#home">Home</a></li>
+                        <li><a href="/#journey">About Us</a></li>
+                        <li><a href="/#tours">Tours</a></li>
+                        <li><a href="/#contact">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3 class="footer-title">Our Tours</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Mountain Expeditions</a></li>
+                        <li><a href="#">Cultural Tours</a></li>
+                        <li><a href="#">Adventure Activities</a></li>
+                        <li><a href="#">Family Packages</a></li>
+                    </ul>
+                </div>
+            
+                <div class="footer-column">
+                    <h3 class="footer-title">Newsletter</h3>
+                    <p>Subscribe to our newsletter for the latest updates and exclusive offers.</p>
+                    <form id="newsletterForm" class="form-group">
+                        <input type="email" class="form-control" id="email" placeholder="Your Email" required>
+                        <button type="submit" class="btn" style="margin-top: 10px;">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2025 Ohalik Tours. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Back to Top Button -->
+    <a href="#home" class="back-to-top" id="backToTop">↑</a>
+    <script src="/js/main.js"></script>
+</body>
+</html>

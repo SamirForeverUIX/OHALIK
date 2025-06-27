@@ -1,0 +1,109 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int          @id @default(autoincrement())
+  email        String       @unique
+  password     String
+  firstName    String
+  lastName     String
+  birthDate    DateTime?
+  isAdmin      Boolean      @default(false)
+  isSubscribed Boolean      @default(false)
+  role         String       @default("user")
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  profile      UserProfile?
+  uploads      Document[]
+}
+
+model UserProfile {
+  id        Int      @id @default(autoincrement())
+  userId    Int      @unique
+  bio       String?
+  age       Int?
+  phone     String?
+  address   String?
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Document {
+  id          Int      @id @default(autoincrement())
+  fileName    String
+  fileSize    Int
+  fileType    String
+  filePath    String
+  userId      Int
+  uploadDate  DateTime @default(now())
+  isPublic    Boolean  @default(false)
+  description String?
+  user        User     @relation(fields: [userId], references: [id])
+}
+
+model Blog {
+  id         String        @id @default(uuid())
+  title      String
+  slug       String        @unique
+  excerpt    String?
+  coverImage String
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+  published  Boolean       @default(false)
+  author     String?
+  sections   BlogSection[]
+}
+
+model BlogSection {
+  id     String  @id @default(uuid())
+  blogId String
+  blog   Blog    @relation(fields: [blogId], references: [id], onDelete: Cascade)
+  image  String?
+  text   String
+  order  Int
+
+  @@index([blogId])
+}
+
+model Newsletter {
+  id             Int      @id @default(autoincrement())
+  subject        String
+  content        String   @db.Text
+  sentDate       DateTime @default(now())
+  recipientCount Int
+}
+
+model Tour {
+  id          Int       @id @default(autoincrement())
+  name        String
+  description String    @db.Text
+  duration    Int
+  price       Float
+  location    String
+  difficulty  String
+  maxGroup    Int
+  featured    Boolean   @default(false)
+  imageUrl    String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  itinerary   TourDay[]
+}
+
+model TourDay {
+  id            Int    @id @default(autoincrement())
+  tourId        Int
+  dayNumber     Int
+  title         String
+  description   String @db.Text
+  activities    String @db.Text
+  meals         String
+  accommodation String
+  tour          Tour   @relation(fields: [tourId], references: [id], onDelete: Cascade)
+}
