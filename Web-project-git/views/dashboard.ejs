@@ -3,201 +3,866 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Ohalik Tours</title>
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/dashboard.css">
+    <title>Admin Dashboard - OHALIK Tours</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .admin-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 2rem 0;
+            box-shadow: 2px 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .admin-logo {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 0 1.5rem;
+        }
+
+        .admin-logo h2 {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .nav-menu {
+            list-style: none;
+        }
+
+        .nav-item {
+            margin: 0.5rem 1rem;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            color: #555;
+            text-decoration: none;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .nav-icon {
+            margin-right: 0.75rem;
+            font-size: 1.2rem;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .content-section {
+            display: none;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .content-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #f8f9fa;
+            color: #666;
+            border: 1px solid #ddd;
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #51cf66, #40c057);
+            color: white;
+        }
+
+        /* Tables */
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .admin-table th {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .admin-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .admin-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        /* Forms */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+        }
+
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 800px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #999;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .close-btn:hover {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 2rem;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 6px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        /* Image Preview */
+        .image-preview {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid #e9ecef;
+        }
+
+        /* Newsletter Editor */
+        .newsletter-editor {
+            min-height: 400px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .admin-container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                padding: 1rem 0;
+            }
+            
+            .nav-menu {
+                display: flex;
+                overflow-x: auto;
+                padding: 0 1rem;
+            }
+            
+            .nav-item {
+                margin: 0 0.25rem;
+                min-width: 150px;
+            }
+            
+            .main-content {
+                padding: 1rem;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Tour Day Items */
+        .day-item {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .day-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .day-number {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            margin-right: 1rem;
+        }
+
+        .remove-day {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 0.25rem 0.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+    </style>
 </head>
 <body>
-    <div class="dashboard-container">
+    <div class="admin-container">
         <!-- Sidebar -->
-        <div class="dashboard-sidebar">
-            <div class="sidebar-header">
-                <h2><span>OHALIK</span> TOURS</h2>
+        <aside class="sidebar">
+            <div class="admin-logo">
+                <h2>SILK ROAD Admin</h2>
             </div>
-            
-            <nav class="sidebar-nav">
-                <ul>
-                    <li class="active"><a href="/dashboard"><i class="icon profile-icon"></i> My Profile</a></li>
-                    <li><a href="/dashboard/bookings"><i class="icon bookings-icon"></i> My Bookings</a></li>
-                    <li><a href="/dashboard/documents"><i class="icon documents-icon"></i> Documents</a></li>
-                    <li><a href="/dashboard/wishlist"><i class="icon wishlist-icon"></i> Wishlist</a></li>
-                    <li class="nav-divider"></li>
-                    <li><a href="/tours"><i class="icon tours-icon"></i> Browse Tours</a></li>
-                    <li><a href="/logout"><i class="icon logout-icon"></i> Logout</a></li>
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link active" data-section="dashboard">
+                            <span class="nav-icon">📊</span>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-section="tours">
+                            <span class="nav-icon">🏔️</span>
+                            Tours Management
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-section="blog">
+                            <span class="nav-icon">📝</span>
+                            Blog Management
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-section="newsletter">
+                            <span class="nav-icon">📧</span>
+                            Newsletter
+                        </a>
+                    </li>
                 </ul>
             </nav>
-            
-            <div class="sidebar-footer">
-                <p>&copy; 2025 Ohalik Tours</p>
-            </div>
-        </div>
-        
+        </aside>
+
         <!-- Main Content -->
-        <div class="dashboard-content">
-            <div class="dashboard-header">
-                <h1>My Profile</h1>
-                <div class="user-welcome">
-                    Welcome, <%= user.firstName %>!
+        <main class="main-content">
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="content-section active">
+                <div class="section-header">
+                    <h1 class="section-title">Dashboard Overview</h1>
                 </div>
-            </div>
-            
-            <div class="dashboard-body">
-                <!-- Profile Information Card -->
-                <div class="dashboard-card">
-                    <div class="card-header">
-                        <h3>Personal Information</h3>
-                        <button id="editProfileBtn" class="btn-small">Edit</button>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalTours">0</div>
+                        <div class="stat-label">Total Tours</div>
                     </div>
-                    
-                    <div class="card-body">
-                        <% if (typeof message !== 'undefined') { %>
-                            <div class="alert alert-success">
-                                <%= message %>
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalBlogs">0</div>
+                        <div class="stat-label">Blog Posts</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalSubscribers">0</div>
+                        <div class="stat-label">Newsletter Subscribers</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalUsers">0</div>
+                        <div class="stat-label">Registered Users</div>
+                    </div>
+                </div>
+
+                <div class="section-header">
+                    <h2>Recent Activity</h2>
+                </div>
+                <div id="recentActivity">
+                    <p>Loading recent activity...</p>
+                </div>
+            </section>
+
+            <!-- Tours Management Section -->
+            <section id="tours" class="content-section">
+                <div class="section-header">
+                    <h1 class="section-title">Tours Management</h1>
+                    <button class="btn btn-primary" onclick="openTourModal()">
+                        <span>➕</span> Add New Tour
+                    </button>
+                </div>
+                
+                <table class="admin-table" id="toursTable">
+                    <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>Name</th>
+                            <th>Location</th>
+                            <th>Duration</th>
+                            <th>Price</th>
+                            <th>Difficulty</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="toursTableBody">
+                        <!-- Tours will be loaded here -->
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Blog Management Section -->
+            <section id="blog" class="content-section">
+                <div class="section-header">
+                    <h1 class="section-title">Blog Management</h1>
+                    <button class="btn btn-primary" onclick="openBlogModal()">
+                        <span>➕</span> Add New Post
+                    </button>
+                </div>
+                
+                <table class="admin-table" id="blogTable">
+                    <thead>
+                        <tr>
+                            <th>Cover Image</th>
+                            <th>Title</th>
+                            <th>Author</th>
+                            <th>Status</th>
+                            <th>Created</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="blogTableBody">
+                        <!-- Blog posts will be loaded here -->
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Newsletter Section -->
+            <section id="newsletter" class="content-section">
+                <div class="section-header">
+                    <h1 class="section-title">Newsletter</h1>
+                </div>
+                
+                <div class="form-grid">
+                    <div>
+                        <h3>Send Newsletter</h3>
+                        <form id="newsletterForm">
+                            <div class="form-group">
+                                <label class="form-label">Subject</label>
+                                <input type="text" class="form-control" id="newsletterSubject" required>
                             </div>
-                        <% } %>
-                        
-                        <div id="profileDisplay">
-                            <div class="profile-info">
-                                <div class="profile-avatar">
-                                    <div class="avatar-placeholder">
-                                        <%= user.firstName.charAt(0) %><%= user.lastName.charAt(0) %>
-                                    </div>
-                                </div>
-                                
-                                <div class="profile-details">
-                                    <div class="info-group">
-                                        <label>Full Name</label>
-                                        <p><%= user.firstName %> <%= user.lastName %></p>
-                                    </div>
-                                    
-                                    <div class="info-group">
-                                        <label>Email</label>
-                                        <p><%= user.email %></p>
-                                    </div>
-                                    
-                                    <div class="info-group">
-                                        <label>Birth Date</label>
-                                        <p><%= user.birthDate ? new Date(user.birthDate).toLocaleDateString() : 'Not provided' %></p>
-                                    </div>
-                                    
-                                    <div class="info-group">
-                                        <label>Newsletter</label>
-                                        <p><%= user.isSubscribed ? 'Subscribed' : 'Not subscribed' %></p>
-                                    </div>
-                                </div>
+                            <div class="form-group">
+                                <label class="form-label">Content</label>
+                                <textarea class="form-control newsletter-editor" id="newsletterContent" rows="15" placeholder="Write your newsletter content here..."></textarea>
                             </div>
+                            <button type="submit" class="btn btn-primary">
+                                <span>📧</span> Send Newsletter
+                            </button>
+                        </form>
+                    </div>
+                    <div>
+                        <h3>Newsletter History</h3>
+                        <div id="newsletterHistory">
+                            <!-- Newsletter history will be loaded here -->
                         </div>
-                        
-                        <div id="profileEditForm" style="display: none;">
-                            <form action="/dashboard/update-profile" method="POST">
-                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                                
-                                <div class="form-row">
-                                    <div class="form-group">
-                                        <label for="firstName">First Name</label>
-                                        <input type="text" id="firstName" name="firstName" value="<%= user.firstName %>" required>
-                                    </div>
-                                    
-                                    <div class="form-group">
-                                        <label for="lastName">Last Name</label>
-                                        <input type="text" id="lastName" name="lastName" value="<%= user.lastName %>" required>
-                                    </div>
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label for="email">Email</label>
-                                    <input type="email" id="email" name="email" value="<%= user.email %>" required disabled>
-                                    <small>Email cannot be changed</small>
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label for="birthDate">Birth Date</label>
-                                    <input type="date" id="birthDate" name="birthDate" value="<%= user.birthDate ? new Date(user.birthDate).toISOString().split('T')[0] : '' %>">
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label class="toggle-label">
-                                        <input type="checkbox" id="isSubscribed" name="isSubscribed" <%= user.isSubscribed ? 'checked' : '' %>>
-                                        <span class="toggle-text">Subscribe to newsletter</span>
-                                    </label>
-                                </div>
-                                
-                                <div class="form-group">
-                                    <button type="submit" class="btn">Save Changes</button>
-                                    <button type="button" id="cancelEditBtn" class="btn btn-outline">Cancel</button>
-                                </div>
-                            </form>
-                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Tour Modal -->
+    <div id="tourModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="tourModalTitle">Add New Tour</h2>
+                <button class="close-btn" onclick="closeTourModal()">&times;</button>
+            </div>
+            <form id="tourForm">
+                <input type="hidden" id="tourId">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">Tour Name</label>
+                        <input type="text" class="form-control" id="tourName" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Location</label>
+                        <input type="text" class="form-control" id="tourLocation" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Duration (days)</label>
+                        <input type="number" class="form-control" id="tourDuration" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Price ($)</label>
+                        <input type="number" class="form-control" id="tourPrice" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Difficulty</label>
+                        <select class="form-control" id="tourDifficulty" required>
+                            <option value="">Select Difficulty</option>
+                            <option value="Easy">Easy</option>
+                            <option value="Moderate">Moderate</option>
+                            <option value="Hard">Hard</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Max Group Size</label>
+                        <input type="number" class="form-control" id="tourMaxGroup" required>
                     </div>
                 </div>
                 
-                <!-- Password Change Card -->
-                <div class="dashboard-card">
-                    <div class="card-header">
-                        <h3>Security</h3>
-                    </div>
-                    
-                    <div class="card-body">
-                        <form action="/dashboard/change-password" method="POST">
-                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                            
-                            <div class="form-group">
-                                <label for="currentPassword">Current Password</label>
-                                <input type="password" id="currentPassword" name="currentPassword" required>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="newPassword">New Password</label>
-                                <input type="password" id="newPassword" name="newPassword" required minlength="8">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="confirmPassword">Confirm New Password</label>
-                                <input type="password" id="confirmPassword" name="confirmPassword" required minlength="8">
-                            </div>
-                            
-                            <div class="form-group">
-                                <button type="submit" class="btn">Change Password</button>
-                            </div>
-                        </form>
-                    </div>
+                <div class="form-group">
+                    <label class="form-label">Description</label>
+                    <textarea class="form-control" id="tourDescription" rows="4" required></textarea>
                 </div>
-            </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Image URL</label>
+                    <input type="url" class="form-control" id="tourImageUrl" placeholder="https://example.com/image.jpg">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">
+                        <input type="checkbox" id="tourFeatured"> Featured Tour
+                    </label>
+                </div>
+
+                <h3>Itinerary</h3>
+                <div id="itineraryContainer">
+                    <!-- Itinerary days will be added here -->
+                </div>
+                <button type="button" class="btn btn-secondary" onclick="addItineraryDay()">
+                    <span>➕</span> Add Day
+                </button>
+
+                <div style="margin-top: 2rem;">
+                    <button type="submit" class="btn btn-primary">
+                        <span>💾</span> Save Tour
+                    </button>
+                    <button type="button" class="btn btn-secondary" onclick="closeTourModal()">Cancel</button>
+                </div>
+            </form>
         </div>
     </div>
-    
+
+    <!-- Blog Modal -->
+    <div id="blogModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="blogModalTitle">Add New Blog Post</h2>
+                <button class="close-btn" onclick="closeBlogModal()">&times;</button>
+            </div>
+            <form id="blogForm">
+                <input type="hidden" id="blogId">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">Title</label>
+                        <input type="text" class="form-control" id="blogTitle" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Author</label>
+                        <input type="text" class="form-control" id="blogAuthor">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Excerpt</label>
+                    <textarea class="form-control" id="blogExcerpt" rows="2" placeholder="Short description of the blog post"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Cover Image URL</label>
+                    <input type="url" class="form-control" id="blogCoverImage" placeholder="https://example.com/image.jpg">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">
+                        <input type="checkbox" id="blogPublished"> Published
+                    </label>
+                </div>
+
+                <h3>Blog Content Sections</h3>
+                <div id="blogSectionsContainer">
+                    <!-- Blog sections will be added here -->
+                </div>
+                <button type="button" class="btn btn-secondary" onclick="addBlogSection()">
+                    <span>➕</span> Add Section
+                </button>
+
+                <div style="margin-top: 2rem;">
+                    <button type="submit" class="btn btn-primary">
+                        <span>💾</span> Save Blog Post
+                    </button>
+                    <button type="button" class="btn btn-secondary" onclick="closeBlogModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const editProfileBtn = document.getElementById('editProfileBtn');
-            const cancelEditBtn = document.getElementById('cancelEditBtn');
-            const profileDisplay = document.getElementById('profileDisplay');
-            const profileEditForm = document.getElementById('profileEditForm');
-            
-            // Toggle between display and edit mode
-            editProfileBtn.addEventListener('click', () => {
-                profileDisplay.style.display = 'none';
-                profileEditForm.style.display = 'block';
-            });
-            
-            cancelEditBtn.addEventListener('click', () => {
-                profileDisplay.style.display = 'block';
-                profileEditForm.style.display = 'none';
-            });
-            
-            // Password confirmation validation
-            const passwordForm = document.querySelector('form[action="/dashboard/change-password"]');
-            if (passwordForm) {
-                passwordForm.addEventListener('submit', (e) => {
-                    const newPassword = document.getElementById('newPassword').value;
-                    const confirmPassword = document.getElementById('confirmPassword').value;
+        // Global variables
+        let tours = [];
+        let blogs = [];
+        let currentEditingTour = null;
+        let currentEditingBlog = null;
+        let itineraryDayCounter = 0;
+        let blogSectionCounter = 0;
+
+        // Initialize the admin panel
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeAdminPanel();
+            loadDashboardData();
+        });
+
+        function initializeAdminPanel() {
+            // Navigation functionality
+            const navLinks = document.querySelectorAll('.nav-link');
+            const contentSections = document.querySelectorAll('.content-section');
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetSection = link.dataset.section;
                     
-                    if (newPassword !== confirmPassword) {
-                        e.preventDefault();
-                        alert('Passwords do not match!');
+                    // Update active nav link
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    link.classList.add('active');
+                    
+                    // Show target section
+                    contentSections.forEach(section => {
+                        section.classList.remove('active');
+                    });
+                    document.getElementById(targetSection).classList.add('active');
+                    
+                    // Load section-specific data
+                    if (targetSection === 'tours') {
+                        loadTours();
+                    } else if (targetSection === 'blog') {
+                        loadBlogs();
+                    } else if (targetSection === 'newsletter') {
+                        loadNewsletterHistory();
                     }
                 });
+            });
+
+            // Form submissions
+            document.getElementById('tourForm').addEventListener('submit', handleTourSubmit);
+            document.getElementById('blogForm').addEventListener('submit', handleBlogSubmit);
+            document.getElementById('newsletterForm').addEventListener('submit', handleNewsletterSubmit);
+        }
+
+        function loadDashboardData() {
+            // In a real application, these would be API calls
+            // For demo purposes, using mock data
+            
+            // Update stats
+            document.getElementById('totalTours').textContent = tours.length;
+            document.getElementById('totalBlogs').textContent = blogs.length;
+            document.getElementById('totalSubscribers').textContent = '247';
+            document.getElementById('totalUsers').textContent = '1,089';
+            
+            // Load recent activity
+            const recentActivity = document.getElementById('recentActivity');
+            recentActivity.innerHTML = `
+                <div style="background: #f8f9fa; padding: 1rem; border-radius: 10px; margin-bottom: 0.5rem;">
+                    <strong>New tour booking</strong> - Mountain Explorer Tour - 2 hours ago
+                </div>
+                <div style="background: #f8f9fa; padding: 1rem; border-radius: 10px; margin-bottom: 0.5rem;">
+                    <strong>Blog post published</strong> - "Hidden Gems of Samarkand" - 5 hours ago
+                </div>
+                <div style="background: #f8f9fa; padding: 1rem; border-radius: 10px; margin-bottom: 0.5rem;">
+                    <strong>Newsletter sent</strong> - "Weekly Adventures Update" - 1 day ago
+                </div>
+            `;
+        }
+
+        // Tours Management
+        function loadTours() {
+            const tbody = document.getElementById('toursTableBody');
+            tbody.innerHTML = '';
+            
+            tours.forEach(tour => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>
+                        <img src="${tour.imageUrl || '/images/default-tour.jpg'}" alt="${tour.name}" class="image-preview">
+                    </td>
+                    <td>${tour.name}</td>
+                    <td>${tour.location}</td>
+                    <td>${tour.duration} days</td>
+                    <td>$${tour.price}</td>
+                    <td>${tour.difficulty}</td>
+                    <td>
+                        <button class="btn btn-secondary" onclick="editTour('${tour.id}')">Edit</button>
+                        <button class="btn btn-danger" onclick="deleteTour('${tour.id}')">Delete</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function openTourModal(tourId = null) {
+            const modal = document.getElementById('tourModal');
+            const title = document.getElementById('tourModalTitle');
+            
+            if (tourId) {
+                currentEditingTour = tours.find(t => t.id === tourId);
+                title.textContent = 'Edit Tour';
+                fillTourForm(currentEditingTour);
+            } else {
+                currentEditingTour = null;
+                title.textContent = 'Add New Tour';
+                document.getElementById('tourForm').reset();
+                document.getElementById('itineraryContainer').innerHTML = '';
+                itineraryDayCounter = 0;
             }
-        });
-    </script>
-</body>
-</html>
+            
+            modal.classList.add('show');
+        }
+
+        function closeTourModal() {
+            document.getElementById('tourModal').classList.remove('show');
+        }
+
+        function fillTourForm(tour) {
+            document.getElementById('tourId').value = tour.id;
+            document.getElementById('tourName').value = tour.name;
+            document.getElementById('tourLocation').value = tour.location;
+            document.getElementById('tourDuration').value = tour.duration;
+            document.getElementById('tourPrice').value = tour.price;
+            document.getElementById('tourDifficulty').value = tour.difficulty;
+            document.getElementById('tourMaxGroup').value = tour.maxGroup;
+            document.getElementById('tourDescription').value = tour.description;
+            document.getElementById('tourImageUrl').value = tour.imageUrl || '';
+            document.getElementById('tourFeatured').checked = tour.featured || false;
+            
+            // Load itinerary
+            const container = document.getElementById('itineraryContainer');
+            container.innerHTML = '';
+            itineraryDayCounter = 0;
+            
+            if (tour.itinerary) {
+                tour.itinerary.forEach(day => {
+                    addItineraryDay(day);
+                });
+            }
+        }
+
+        function addItineraryDay(dayData = null) {
+            itineraryDayCounter++;
+            const container = document.getElementById('itineraryContainer');
+            
+            const dayDiv = document.createElement('div');
+            dayDiv.className = 'day-item';
+            dayDiv.innerHTML = `
+                <div class="day-header">
+                    <span class="day-number">Day ${itineraryDayCounter}</span>
+                    <button type="button" class="remove-day" onclick="removeItineraryDay(this)">Remove</button>
+                </div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">Day Title</label>
+                        <input type="text" class="form-control day-title" value="${dayData?.title || ''}" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Meals</label>
+                        <input type="text" class="form-control day-meals" value="${dayData?.meals || ''}" placeholder="Breakfast, Lunch, Dinner">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Description</label>
+                    <textarea class="form-control day-description" rows="2">${dayData?.description || ''}</textarea>
+                </div>
