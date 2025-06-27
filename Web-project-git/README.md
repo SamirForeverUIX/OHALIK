@@ -52,19 +52,13 @@ Booking form (date, number of people).
 Sidebar with summary and highlights.
 
 
-3. Admin Panel
+3. Admin Panel - not implemented yet
 Add/edit/remove:
-
 Tours
-
 Blog posts
-
 Itineraries, prices, and images
-
 Upload images and attach to tours.
-
-View user bookings and messages.
-
+and write a newletter inside the newletter panel that directly send that newsletter to all subscribers in one submin.
 
 4. Blog & Newsletter
 Blog posts with dedicated pages (not modals anymore).
@@ -81,10 +75,8 @@ Fully responsive grid layout for clean display
 Fixed blog header for better navigation
 
 🔐 Security Considerations
-Email and password login system
 
-Role-checking logic to restrict admin access
-
-Proper form handling and POST routes for bookings and updates
+Proper form handling and POST routes for bookings and updates.
+secret key for opening admin panel.
 
 
